@@ -21,7 +21,6 @@ const StorageCtrl = (function () {
 
                 // Re-set local storage
                 localStorage.setItem('items', JSON.stringify(items));
-
             }
         },
         getItemsFromStorage: function () {
@@ -36,7 +35,7 @@ const StorageCtrl = (function () {
         updateItemStorage: function (updatedItem) {
             let items = JSON.parse(localStorage.getItem('items'));
             items.forEach(function (item, index) {
-                if (updatedItem.id === items.id) {
+                if (updatedItem.id === item.id) {
                     items.splice(index, 1, updatedItem);
                 }
             });
@@ -45,7 +44,7 @@ const StorageCtrl = (function () {
         deleteItemFromStorage: function (id) {
             let items = JSON.parse(localStorage.getItem('items'));
             items.forEach(function (item, index) {
-                if (id === items.id) {
+                if (id === item.id) {
                     items.splice(index, 1);
                 }
             });
@@ -400,7 +399,7 @@ const App = (function (ItemCtrl, StorageCtrl, UICtrl) {
         // Update local storage
         StorageCtrl.updateItemStorage(updatedItem);
 
-        UICtrl.clearEditState(updatedItem.id);
+        UICtrl.clearEditState();
 
         e.preventDefault();
     }
@@ -416,6 +415,7 @@ const App = (function (ItemCtrl, StorageCtrl, UICtrl) {
 
         // Delete from UI
         UICtrl.deleteListItem(currentItem.id);
+
         // Get total calories
         const totalCalories = ItemCtrl.getTotalCalories();
         // Add total calories to UI
@@ -431,7 +431,7 @@ const App = (function (ItemCtrl, StorageCtrl, UICtrl) {
 
     // Clear items event
 
-    const clearAllItemsClick = function (e) {
+    const clearAllItemsClick = function () {
         // Delete all items from data structure
         ItemCtrl.clearAllItems();
 
